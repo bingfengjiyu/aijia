@@ -10,6 +10,8 @@ from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 
 
+from utils.commons import RegexConverter
+
 # 构建数据库对象
 db=SQLAlchemy()
 
@@ -45,9 +47,15 @@ def create_app(config_name):
     csrf.init_app(app)
 
     Session(app)
+    app.url_map.converters['re']=RegexConverter
+
     import api_1_0
 
     app.register_blueprint(api_1_0.api,url_prefix="/api/v1_0")
+
+    from ihone.web_html import html
+
+    app.register_blueprint(html)
 
 
     return app

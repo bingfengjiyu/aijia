@@ -1,6 +1,6 @@
 # coding:utf-8
 from . import api
-from ihone import db
+from ihone import db,models
 from flask import current_app
 
 @api.route('/index')
