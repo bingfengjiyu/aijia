@@ -28,6 +28,7 @@ function generateImageCode() {
     $(".image-code>img").attr("src", url);
 }
 
+
 function sendSMSCode() {
     $(".phonecode-a").removeAttr("onclick");
     var mobile = $("#mobile").val();

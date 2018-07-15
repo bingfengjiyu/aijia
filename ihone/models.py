@@ -27,6 +27,15 @@ class User(BaseModel, db.Model):
     houses = db.relationship("House", backref="user")  # 用户发布的房屋
     orders = db.relationship("Order", backref="user")  # 用户下的订单
 
+    @property
+    def password(self):
+        return
+
+    @password.setter
+    def password(self, value):
+        pass
+
+
 
 class Area(BaseModel, db.Model):
     """城区"""

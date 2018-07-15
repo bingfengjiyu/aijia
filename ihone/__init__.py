@@ -9,12 +9,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 
-
 from utils.commons import RegexConverter
+
+
+# 项目初始化文件,创建app对象
 
 # 构建数据库对象
 db=SQLAlchemy()
-
 
 redis_store=None
 
@@ -36,27 +37,29 @@ logging.getLogger().addHandler(file_log_handler)
 def create_app(config_name):
     app = Flask(__name__)
     conf=config_dict[config_name]
+    # 设置flask配置信息
     app.config.from_object(conf)
 
     # 初始化数据库db
     db.init_app(app)
 
+    # 初始化redis对象
     global redis_store
     redis_store = redis.StrictRedis(host=conf.REDIS_HOST, port=conf.REDIS_PORT)
     # 初始化
     csrf.init_app(app)
-
+    # 将flask的session保存到redis中
     Session(app)
+    # 向app中添加自定义的路由转换器
     app.url_map.converters['re']=RegexConverter
 
     import api_1_0
 
     app.register_blueprint(api_1_0.api,url_prefix="/api/v1_0")
 
-    from ihone.web_html import html
+    import web_html
 
-    app.register_blueprint(html)
-
+    app.register_blueprint(web_html.html)
 
     return app
 
