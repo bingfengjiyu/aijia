@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from . import db
+from werkzeug.security import generate_password_hash
 
 
 
@@ -29,12 +30,11 @@ class User(BaseModel, db.Model):
 
     @property
     def password(self):
-        return
+        raise AttributeError("不支持读取操作")
 
     @password.setter
     def password(self, value):
-        pass
-
+        self.password_hash = generate_password_hash(value)
 
 
 class Area(BaseModel, db.Model):
@@ -45,6 +45,13 @@ class Area(BaseModel, db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 区域编号
     name = db.Column(db.String(32), nullable=False)  # 区域名字
     houses = db.relationship("House", backref="area")  # 区域的房屋
+
+    def to_dict(self):
+        area_dict={
+            "aid":self.id,
+            "aname":self.name
+
+        }
 
 
 # 房屋设施表，建立房屋与设施的多对多关系
