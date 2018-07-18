@@ -1,1 +1,1 @@
-INFO _internal.py:87 127.0.0.1 - - [16/Jul/2018 21:34:49] "GET /api/v1_0/image_codes/2194267b-f41e-4099-9acc-6b135372cce5 HTTP/1.1" 200 -
+INFO _internal.py:87 127.0.0.1 - - [18/Jul/2018 13:08:57] "POST /api/v1_0/users/avatar HTTP/1.1" 200 -

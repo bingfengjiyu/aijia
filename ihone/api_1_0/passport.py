@@ -2,14 +2,13 @@
 import re
 
 from flask import current_app
-from flask import request, jsonify,session
+from flask import request, jsonify,session,g
 
+from ihone.utils.commons import login_required
 from ihone.utils.response_code import RET
 from . import api
 from ihone import redis_store, db
 from ihone.models import User
-
-
 
 
 
@@ -109,3 +108,13 @@ def register():
         "errmsg": "注册成功"
     }
     return jsonify(resp)
+
+
+# @api.route("")
+# def login():
+#     pass
+
+
+@login_required
+def set_user_avatar():
+    user_id=g.user_id

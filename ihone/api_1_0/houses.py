@@ -1,10 +1,12 @@
 # coding:utf-8
 from flask import current_app, jsonify
 from flask import json
+from flask import request
+from datetime import datetime
 
 from ihone.utils.response_code import RET
 from . import api
-from ihone.models import Area
+from ihone.models import Area, House
 from ihone import redis_store
 
 
@@ -41,7 +43,34 @@ from ihone import redis_store
 
 
 
+@api.route("/houses",methods=["GET"])
+def get_house_list():
+    start_date_str=request.args.get("sd","")
+    end_date_str=request.args.get("ed","")
+    area_id=request.args.get("aid","")
+    sort_key=request.args.get("sk","new")
+    page=request.args.get("p",1)
 
+    try:
+        start_date=None
+        if start_date_str:
+            start_date=datetime.strptime(start_date_str,"%Y-%m-%d")
+        end_date=None
+        if end_date_str:
+            end_date=datetime.strptime(end_date_str,"%Y-%m-%d")
+        if start_date and end_date:
+            assert start_date<=end_date
+    except Exception as e:
+        return jsonify(errno=RET.PARAMERR,errmsg="日期参数有误")
+
+    # 判断页数
+    try:
+        page=int(page)
+    except Exception:
+        page=1
+
+    # 查询数据
+    House.query.filter().order_by()
 
 
 
